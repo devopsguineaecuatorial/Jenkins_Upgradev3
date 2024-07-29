@@ -13,8 +13,8 @@ pipeline {
                     echo "Build Number: $buildNumber"
 
                     // Use them in shell commands
-                    sh 'sudo docker --version'
-                    sh 'sudo dotnet --info'
+                    sh 'echo "" | sudo -S docker --version'
+                    sh 'echo "" | sudo -S dotnet --info'
                 }
             }
         }
@@ -58,13 +58,13 @@ pipeline {
                     echo "Job Name: $jobName"
                     echo "Build Number: $buildNumber"
                 
-                withCredentials([usernamePassword(credentialsId: '2dd94d08-521c-4270-86d7-10bc895f8a77', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {                      
-                    sh "chmod +x ./jenkins-plugin-model/ci/04-push.sh"
-                    sh "./jenkins-plugin-model/ci/04-push.sh $buildNumber"
+                    withCredentials([usernamePassword(credentialsId: '2dd94d08-521c-4270-86d7-10bc895f8a77', usernameVariable: 'DOCKER_HUB_USER', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {                      
+                        sh "chmod +x ./jenkins-plugin-model/ci/04-push.sh"
+                        sh "./jenkins-plugin-model/ci/04-push.sh $buildNumber"
+                    }
+                    echo "Build Completed - Job Name: $jobName  --  Build Number: $buildNumber"
                 }
-                echo "Build Completed - Job Name: $jobName  --  Build Number: $buildNumber"
             }
         }
     }
-}
 }
